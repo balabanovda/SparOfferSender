@@ -1,17 +1,16 @@
 package com.sas.spar.dao;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
+
+@Table(name = "lx_OffersImportModel", schema = "exchange", catalog = "DDS")
 public class OffersImportModelDAO {
+
     @Id
     private Long id;
 }

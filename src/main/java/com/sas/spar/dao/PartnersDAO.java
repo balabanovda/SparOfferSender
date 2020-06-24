@@ -1,5 +1,6 @@
 package com.sas.spar.dao;
 
+import com.sas.spar.dao2.PartnerDAO;
 import com.sas.spar.web.model.dto.Partner;
 
 import javax.persistence.*;
@@ -18,7 +19,7 @@ public class PartnersDAO {
     private OffersDAO offersDAO;
 
     @OneToMany(mappedBy = "partnersDAO", cascade = {CascadeType.ALL}, orphanRemoval = true)
-    public List<PartnerDAO> partnerDAOList;
+    public List<Partner2DAO> partnerDAOList;
 
     public OffersDAO getOffersDAO() {
         return offersDAO;
@@ -36,11 +37,11 @@ public class PartnersDAO {
         this.id = id;
     }
 
-    public List<PartnerDAO> getPartnerDAOList() {
+    public List<Partner2DAO> getPartnerDAOList() {
         return partnerDAOList;
     }
 
-    public void setPartnerDAOList(List<PartnerDAO> partnerDAOList) {
+    public void setPartnerDAOList(List<Partner2DAO> partnerDAOList) {
         this.partnerDAOList = partnerDAOList;
     }
 

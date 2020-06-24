@@ -16,5 +16,4 @@ public class Partner {
                 "id='" + id + '\'' +
                 '}';
     }
-
 }

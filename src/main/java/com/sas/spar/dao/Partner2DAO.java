@@ -5,7 +5,7 @@ package com.sas.spar.dao;
 import javax.persistence.*;
 @Entity
 @Table(name = "lx_Partner", schema = "exchange", catalog = "DDS")
-public class PartnerDAO {
+public class Partner2DAO {
     @Id
     @Column(name = "Partner_id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Partne_id_generator")

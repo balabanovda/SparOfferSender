@@ -31,7 +31,7 @@ public interface RootMapper {
     @Mapping(target = "partnerDAOList", source = "partner")
     PartnersDAO partnersToPartnersDAO(Partners partners);
 
-    PartnerDAO partnerToPartnerDAO(Partner partner);
+    Partner2DAO partnerToPartner2DAO(Partner partner);
 
     @Mapping(target = "eventsDAOList", source = "events")
     RulesDAO rulesToRulesDAO(Rules rules);

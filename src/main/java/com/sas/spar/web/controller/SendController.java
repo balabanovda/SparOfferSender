@@ -18,12 +18,12 @@ public class SendController {
     @Autowired
     SendService sendService;
 
-    @GetMapping("offer")
-    @ApiOperation(value = "Отправка акции",
-            notes = "Что-то в будущем, описывающее функционал метода")
-    public ResponseEntity sendOffer() {
-        return new ResponseEntity(new Response(new Meta(0, "Success"), null), HttpStatus.OK);
-    }
+//    @GetMapping("offer")
+//    @ApiOperation(value = "Отправка акции",
+//            notes = "Что-то в будущем, описывающее функционал метода")
+//    public ResponseEntity sendOffer() {
+//        return new ResponseEntity(new Response(new Meta(0, "Success"), null), HttpStatus.OK);
+//    }
 
     @GetMapping("/health-check")
     @ApiOperation(value = "Проверка доступности приложения")
@@ -35,6 +35,13 @@ public class SendController {
     public ResponseEntity post(@RequestBody Root root){
         System.out.println(root);
         sendService.saveRoot(root);
+        return new ResponseEntity(new Response(new Meta(0, "Success"), null), HttpStatus.OK);
+    }
+
+    @GetMapping("/offer")
+    public ResponseEntity postImport(@RequestParam Long idOffer){
+
+        sendService.sendOffersImportModel(idOffer);
         return new ResponseEntity(new Response(new Meta(0, "Success"), null), HttpStatus.OK);
     }
 }

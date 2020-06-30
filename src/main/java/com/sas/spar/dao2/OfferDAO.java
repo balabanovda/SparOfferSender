@@ -21,7 +21,7 @@ public class OfferDAO {
 
     private String expirationDateValue = null;
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "OffersImportModel_id")
+    @JoinColumn(name = "OffersImportModel_id",  nullable = false)
     private OffersImportModelDAO offersImportModelDAO;
 
     public enum WorkingStateEnum {
@@ -109,8 +109,8 @@ public class OfferDAO {
     private OfferLoyaltyProgramsDAO loyaltyProgramsDAO = null;
     @OneToOne(mappedBy = "offerDAO")
     private PointsOfSalesDAO pointsOfSalesDAO = null;
-    @OneToMany(mappedBy = "offerDAO", cascade = {CascadeType.ALL})
-    private List<BaseTargetGroupDAO> targetGroups = null;
+//    @OneToMany(mappedBy = "offerDAO", cascade = {CascadeType.ALL})
+//    private List<BaseTargetGroupDAO> targetGroups = null;
     @OneToOne(mappedBy = "offerDAO")
     private OfferRulesDAO rulesDAO = null;
 
@@ -316,31 +316,15 @@ public class OfferDAO {
         this.pointsOfSalesDAO = pointsOfSalesDAO;
     }
 
-    public OfferDAO targetGroups(List<BaseTargetGroupDAO> targetGroups) {
-        this.targetGroups = targetGroups;
-        return this;
-    }
 
-    public OfferDAO addTargetGroupsItem(BaseTargetGroupDAO targetGroupsItem) {
-        if (this.targetGroups == null) {
-            this.targetGroups = new ArrayList<>();
-        }
-        this.targetGroups.add(targetGroupsItem);
-        return this;
-    }
 
-    public List<BaseTargetGroupDAO> getTargetGroups() {
-        return targetGroups;
-    }
-
-    public void setTargetGroups(List<BaseTargetGroupDAO> targetGroups) {
-        this.targetGroups = targetGroups;
-    }
-
-    public OfferDAO rules(OfferRulesDAO rulesDAO) {
-        this.rulesDAO = rulesDAO;
-        return this;
-    }
+//    public List<BaseTargetGroupDAO> getTargetGroups() {
+//        return targetGroups;
+//    }
+//
+//    public void setTargetGroups(List<BaseTargetGroupDAO> targetGroups) {
+//        this.targetGroups = targetGroups;
+//    }
 
     public OfferRulesDAO getRules() {
         return rulesDAO;
@@ -412,7 +396,7 @@ public class OfferDAO {
         sb.append("    partners: ").append(toIndentedString(partnersDAO)).append("\n");
         sb.append("    loyaltyPrograms: ").append(toIndentedString(loyaltyProgramsDAO)).append("\n");
         sb.append("    pointsOfSales: ").append(toIndentedString(pointsOfSalesDAO)).append("\n");
-        sb.append("    targetGroups: ").append(toIndentedString(targetGroups)).append("\n");
+        //sb.append("    targetGroups: ").append(toIndentedString(targetGroups)).append("\n");
         sb.append("    rules: ").append(toIndentedString(rulesDAO)).append("\n");
         sb.append("    applyChangesDate: ").append(toIndentedString(applyChangesDate)).append("\n");
         sb.append("    expirationDate: ").append(toIndentedString(expirationDate)).append("\n");

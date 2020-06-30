@@ -20,7 +20,7 @@ public class OffersImportModelDAO {
     @SequenceGenerator(name = "OffersImportModel_id_generator", sequenceName = "OffersImportModel_id_seq", schema = "exchange", allocationSize = 1)
     private Long id;
 
-    @OneToMany(mappedBy = "offersImportModelDAO", cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "offersImportModelDAO")
     private List<OfferDAO> offers = null;
 
     public enum VersionEnum {
@@ -79,6 +79,15 @@ public class OffersImportModelDAO {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "OffersImportModelDAO{" +
+                "id=" + id +
+                ", offers=" + offers +
+                ", version=" + version +
+                '}';
     }
 }
 

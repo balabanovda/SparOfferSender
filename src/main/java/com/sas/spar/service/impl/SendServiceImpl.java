@@ -3,13 +3,21 @@ package com.sas.spar.service.impl;
 import com.example.demo.restclient.ApiClient;
 import com.example.demo.restclient.api.OfferImportExportApi;
 import com.example.demo.restclient.auth.HttpBasicAuth;
-import com.example.demo.restclient.model.OfferDto;
-import com.example.demo.restclient.model.OffersImportModel;
+import com.example.demo.restclient.model.*;
 import com.sas.spar.dao.*;
+import com.sas.spar.dao2.OffersImportModelDAO;
+import com.sas.spar.dao2.result.ResultModelOfOffersImportResponseDAO;
+import com.sas.spar.dao2.result.ValidationErrorDAO;
+import com.sas.spar.mapper.OffersImportModelMapper;
+import com.sas.spar.mapper.ResultMapper;
 import com.sas.spar.mapper.RootMapper;
+import com.sas.spar.repository.OffersImportModelRepository;
+import com.sas.spar.repository.ResultRepository;
 import com.sas.spar.repository.RootRepository;
 import com.sas.spar.service.SendService;
+import com.sas.spar.web.model.dto.Filters;
 import com.sas.spar.web.model.dto.Offers;
+import com.sas.spar.web.model.dto.Partner;
 import com.sas.spar.web.model.dto.Root;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +38,7 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MultivaluedHashMap;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
@@ -40,6 +49,10 @@ public class SendServiceImpl implements SendService {
     // static final Logger loggerApp = LoggerFactory.getLogger("App_log");
     @Autowired
     private RootRepository rootRepository;
+    @Autowired
+    private OffersImportModelRepository offersImportModelRepository;
+    @Autowired
+    private ResultRepository resultRepository;
 
     @Override
     public void sendOffer() {
@@ -130,11 +143,92 @@ public class SendServiceImpl implements SendService {
 
         s[0] = "OAuth2Password";
 
-        
+
         apiClient.invokeAPI("/api/Offers/Import",HttpMethod.POST,null,offersImportModel, headerParams,null,null, MediaType.APPLICATION_JSON,s, new ParameterizedTypeReference<List<String>>(){});
 
 
     }
+    @Override
+    public void sendOffersImportModel(Long idOffer){
 
+        OffersImportModel offersImportModel = new OffersImportModel();
 
+        offersImportModel.setVersion(OffersImportModel.VersionEnum.VERSION20);
+        List<OfferDto> listOfferDto = new ArrayList<>();
+        OfferDto offerDto = new OfferDto();
+        offerDto.setTitle("Название акции");
+        offerDto.setId("dfc9287c-67cc-4254-8ee1-c974erf42rt9");
+        offerDto.setApplyChangesDateValue("2021-01-16T11:33:10");
+        offerDto.setExpirationDate(null);
+        offerDto.setWorkingState(OfferDto.WorkingStateEnum.STOPPED);
+        offerDto.setChangesState(OfferDto.ChangesStateEnum.APPROVED);
+        offerDto.setPriority(100);
+        offerDto.setIsSum(false);
+        offerDto.setTimeRefinement(null);
+        offerDto.setDescription("");
+        offerDto.setCategory(null);
+        OfferPartners offerPartners = new OfferPartners();
+        List<PartnerDto> partnersDto = new ArrayList();
+        PartnerDto partnerDto = new PartnerDto();
+        partnerDto.setId("016e8025-7068-43e5-c689-8b01e638c43a");
+        partnersDto.add(partnerDto);
+        offerPartners.setPartners(partnersDto);
+        offerDto.setPartners(offerPartners);
+        offerDto.setPointsOfSales(null);
+        offerDto.setTargetGroups(null);
+        FilterDto filterDto = new FilterDto();
+        filterDto.setName("Filter's name");
+        ActionDto actionDto = new ActionDto();
+        actionDto.setId("Id Action");
+        actionDto.setOrder(1);
+        OfferActionsChainDto offerActionsChainDto = new OfferActionsChainDto();
+        List<ActionDto> actionsDto = new ArrayList<ActionDto>();actionsDto.add(actionDto);
+        List<FilterDto> filtersDto = new ArrayList<>();filtersDto.add(filterDto);
+        offerActionsChainDto.setActions(actionsDto);
+        offerActionsChainDto.setFilters(filtersDto);
+        offerActionsChainDto.setName("Название цепочки действий");
+        offerActionsChainDto.setOrder(1);
+        List<OfferActionsChainDto> offerActionsChainDtos = new ArrayList<>();offerActionsChainDtos.add(offerActionsChainDto);
+        OfferEventDto offerEventDto = new OfferEventDto();
+        offerEventDto.setChains(offerActionsChainDtos);
+        List<OfferEventDto> offerEventDtos = new ArrayList<>();offerEventDtos.add(offerEventDto);
+        OfferRules offerRules = new OfferRules();
+        offerRules.setEvents(offerEventDtos);
+        offerDto.setRules(offerRules);
+
+        listOfferDto.add(offerDto);
+        System.out.println(listOfferDto);
+        offersImportModel.setOffers(listOfferDto);
+        System.out.println(offersImportModel);
+        OffersImportModelDAO offersImportModelDAO = OffersImportModelMapper.OFFERS_IMPORT_MODEL_MAPPER.offersImportModelToOffersImportModelDAO(offersImportModel);
+        System.out.println(offersImportModelDAO);
+        offersImportModelRepository.save(offersImportModelDAO);
+        Optional<OffersImportModelDAO> offersImportModelDAO2 = offersImportModelRepository.findById(idOffer);
+        System.out.println(offersImportModelDAO2.get());
+//        HttpHeaders headers = new HttpHeaders();
+//
+//        headers.setContentType(MediaType.APPLICATION_JSON);
+//        headers.add("username","user" );
+//        headers.add("password","password" );
+//        HttpEntity<OffersImportModel> requestBody = new HttpEntity<>(offersImportModel, headers);
+//
+//        RestTemplate restTemplate = new RestTemplate();
+//        restTemplate.postForEntity("http://localhost:9090/post", requestBody, OffersImportModel.class);
+
+        try {
+            ResultModelOfOffersImportResponse resultModelOfOffersImportResponse = AccountApiExample.importModel(offersImportModel);
+            System.out.println(resultModelOfOffersImportResponse);
+
+            ResultModelOfOffersImportResponseDAO resultModelOfOffersImportResponseDAO = ResultMapper.RESULT_MAPPER.ResultModelOfOffersImportResponseToResultModelOfOffersImportResponseDAO(resultModelOfOffersImportResponse);
+            System.out.println(resultModelOfOffersImportResponseDAO);
+            resultModelOfOffersImportResponseDAO.getResult().setResultModelOfOffersImportResponseDAO(resultModelOfOffersImportResponseDAO);
+           for(ValidationErrorDAO validationError: resultModelOfOffersImportResponseDAO.getResult().getValidationErrors()){
+               validationError.setResultDAO(resultModelOfOffersImportResponseDAO.getResult());
+           }
+            resultRepository.save(resultModelOfOffersImportResponseDAO);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 }

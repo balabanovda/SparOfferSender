@@ -41,8 +41,9 @@ public class SendController {
 //    }
 
     @GetMapping("/offer")
+    @ApiOperation(value = "Отправка акции",
+            notes = "Что-то в будущем, описывающее функционал метода")
     public ResponseEntity postImport(@RequestParam Long idOffer){
-
         sendService.sendOffersImportModel(idOffer);
         return new ResponseEntity(new Response(new Meta(0, "Success"), null), HttpStatus.OK);
     }

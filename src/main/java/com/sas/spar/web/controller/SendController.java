@@ -3,13 +3,15 @@ package com.sas.spar.web.controller;
 import com.sas.spar.service.SendService;
 import com.sas.spar.web.model.Meta;
 import com.sas.spar.web.model.Response;
-import com.sas.spar.web.model.dto.Root;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("api/send")
@@ -31,12 +33,12 @@ public class SendController {
         return new ResponseEntity(new Response(new Meta(0, "Success"), null), HttpStatus.OK);
     }
 
-    @PostMapping("/post")
-    public ResponseEntity post(@RequestBody Root root){
-        System.out.println(root);
-        sendService.saveRoot(root);
-        return new ResponseEntity(new Response(new Meta(0, "Success"), null), HttpStatus.OK);
-    }
+//    @PostMapping("/post")
+//    public ResponseEntity post(@RequestBody Root root){
+//        System.out.println(root);
+//        sendService.saveRoot(root);
+//        return new ResponseEntity(new Response(new Meta(0, "Success"), null), HttpStatus.OK);
+//    }
 
     @GetMapping("/offer")
     public ResponseEntity postImport(@RequestParam Long idOffer){

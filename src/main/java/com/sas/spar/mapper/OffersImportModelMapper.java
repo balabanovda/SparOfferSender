@@ -1,20 +1,17 @@
 package com.sas.spar.mapper;
 
-import com.example.demo.restclient.model.BaseTargetGroupDto;
 import com.example.demo.restclient.model.OfferDto;
 import com.example.demo.restclient.model.OffersImportModel;
-import com.sas.spar.dao.*;
-//import com.sas.spar.dao2.BaseTargetGroupDAO;
 import com.sas.spar.dao2.OfferDAO;
 import com.sas.spar.dao2.OffersImportModelDAO;
-import com.sas.spar.web.model.dto.*;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
+
+//import com.sas.spar.dao2.BaseTargetGroupDAO;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = "spring")
 public interface OffersImportModelMapper {

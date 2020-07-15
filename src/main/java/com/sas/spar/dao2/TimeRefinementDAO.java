@@ -53,12 +53,12 @@ public class TimeRefinementDAO {
     }
 
     @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "loymax_DaysOfWeek", schema = "exchange", catalog = "DDS", joinColumns = @JoinColumn(name = "daysOfWeek_id"))
+    @CollectionTable(name = "loymax_DaysOfWeek", schema = "exchange", catalog = "DDS", joinColumns = @JoinColumn(name = "TimeRefinement_id"))
     @Enumerated(EnumType.STRING)
     private List<DaysOfWeekEnum> daysOfWeek = null;
-    @OneToOne(mappedBy = "timeRefinementDAO")
+    @OneToOne(mappedBy = "timeRefinementDAO", cascade = {CascadeType.ALL})
     private HourMinuteModelDAO beginTime = null;
-    @OneToOne(mappedBy = "timeRefinementDAO")
+    @OneToOne(mappedBy = "timeRefinementDAO", cascade = {CascadeType.ALL})
     private HourMinuteModelDAO endTime = null;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "offer_id", referencedColumnName = "offer_id")

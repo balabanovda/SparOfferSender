@@ -10,4 +10,7 @@ import java.util.Optional;
 public interface OffersImportModelRepository extends CrudRepository<OffersImportModelDAO, Long> {
 
     Optional<OffersImportModelDAO> findById(Long aLong);
+
+    @Override
+    OffersImportModelDAO save(OffersImportModelDAO s);
 }

@@ -34,6 +34,9 @@ public class OfferActionsChainDto {
   @JsonProperty("filters")
   private List<FilterDto> filters = null;
 
+  @JsonProperty("cardListFilters")
+  private List<CardListFilterDto> cardListFilters = null;
+
   @JsonProperty("actions")
   private List<ActionDto> actions = null;
 
@@ -56,7 +59,15 @@ public class OfferActionsChainDto {
     return this;
   }
 
-   /**
+  public List<CardListFilterDto> getCardListFilters() {
+    return cardListFilters;
+  }
+
+  public void setCardListFilters(List<CardListFilterDto> cardListFilters) {
+    this.cardListFilters = cardListFilters;
+  }
+
+  /**
    * Фильтры цепочки.
    * @return filters
   **/
@@ -159,6 +170,7 @@ public class OfferActionsChainDto {
     sb.append("class OfferActionsChainDto {\n");
     
     sb.append("    filters: ").append(toIndentedString(filters)).append("\n");
+    sb.append("    cardListFilters: ").append(toIndentedString(cardListFilters)).append("\n");
     sb.append("    actions: ").append(toIndentedString(actions)).append("\n");
     sb.append("    order: ").append(toIndentedString(order)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");

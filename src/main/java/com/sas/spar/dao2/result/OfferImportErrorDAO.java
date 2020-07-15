@@ -4,7 +4,7 @@ package com.sas.spar.dao2.result;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "loymax_OfferImportError", schema = "exchange", catalog = "DDS")
+@Table(name = "result_loymax_OfferImportError", schema = "exchange", catalog = "DDS")
 public class OfferImportErrorDAO {
 
     @Id

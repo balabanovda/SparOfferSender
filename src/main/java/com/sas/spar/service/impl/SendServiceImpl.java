@@ -1,7 +1,7 @@
 package com.sas.spar.service.impl;
 
 import com.example.demo.restclient.model.*;
-import com.sas.spar.dao2.OffersImportModelDAO;
+import com.sas.spar.dao2.*;
 import com.sas.spar.dao2.result.ResultModelOfOffersImportResponseDAO;
 import com.sas.spar.dao2.result.ValidationErrorDAO;
 import com.sas.spar.mapper.OffersImportModelMapper;
@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -37,7 +38,7 @@ public class SendServiceImpl implements SendService {
         RestTemplate restTemplate = new RestTemplate();
     }
 
-//    @Override
+    //    @Override
 //    public void saveRoot(Root root) {
 ////        System.out.println(root);
 ////        RootDAO rootDAO = RootMapper.ROOT_MAPPER.rootToRootDAO(root);
@@ -125,7 +126,7 @@ public class SendServiceImpl implements SendService {
 //
 //    }
     @Override
-    public void sendOffersImportModel(Long idOffer){
+    public void sendOffersImportModel(Long idOffer) {
 
         OffersImportModel offersImportModel = new OffersImportModel();
 
@@ -140,7 +141,11 @@ public class SendServiceImpl implements SendService {
         offerDto.setChangesState(OfferDto.ChangesStateEnum.APPROVED);
         offerDto.setPriority(100);
         offerDto.setIsSum(false);
-        offerDto.setTimeRefinement(null);
+        TimeRefinementDto timeRefinementDto = new TimeRefinementDto();
+        ArrayList<TimeRefinementDto.DaysOfWeekEnum> daysOfWeekEnums = new ArrayList<>();
+        daysOfWeekEnums.add(0, TimeRefinementDto.DaysOfWeekEnum.FRIDAY);
+        timeRefinementDto.setDaysOfWeek(daysOfWeekEnums);
+        offerDto.setTimeRefinement(timeRefinementDto);
         offerDto.setDescription("");
         offerDto.setCategory(null);
         OfferPartners offerPartners = new OfferPartners();
@@ -158,19 +163,26 @@ public class SendServiceImpl implements SendService {
         actionDto.setId("Id Action");
         actionDto.setOrder(1);
         OfferActionsChainDto offerActionsChainDto = new OfferActionsChainDto();
-        List<ActionDto> actionsDto = new ArrayList<ActionDto>();actionsDto.add(actionDto);
-        List<FilterDto> filtersDto = new ArrayList<>();filtersDto.add(filterDto);
+        List<ActionDto> actionsDto = new ArrayList<ActionDto>();
+        actionsDto.add(actionDto);
+        List<FilterDto> filtersDto = new ArrayList<>();
+        filtersDto.add(filterDto);
         offerActionsChainDto.setActions(actionsDto);
         offerActionsChainDto.setFilters(filtersDto);
         offerActionsChainDto.setName("Название цепочки действий");
         offerActionsChainDto.setOrder(1);
-        List<OfferActionsChainDto> offerActionsChainDtos = new ArrayList<>();offerActionsChainDtos.add(offerActionsChainDto);
+        List<OfferActionsChainDto> offerActionsChainDtos = new ArrayList<>();
+        offerActionsChainDtos.add(offerActionsChainDto);
         OfferEventDto offerEventDto = new OfferEventDto();
         offerEventDto.setChains(offerActionsChainDtos);
-        List<OfferEventDto> offerEventDtos = new ArrayList<>();offerEventDtos.add(offerEventDto);
+        List<OfferEventDto> offerEventDtos = new ArrayList<>();
+        offerEventDtos.add(offerEventDto);
         OfferRules offerRules = new OfferRules();
         offerRules.setEvents(offerEventDtos);
         offerDto.setRules(offerRules);
+        OffsetDateTime offsetDateTime = OffsetDateTime.now();
+
+        offerDto.setApplyChangesDate(offsetDateTime);
 
         listOfferDto.add(offerDto);
         System.out.println(listOfferDto);
@@ -178,9 +190,54 @@ public class SendServiceImpl implements SendService {
         System.out.println(offersImportModel);
         OffersImportModelDAO offersImportModelDAO = OffersImportModelMapper.OFFERS_IMPORT_MODEL_MAPPER.offersImportModelToOffersImportModelDAO(offersImportModel);
         System.out.println(offersImportModelDAO);
+
+        List<String> stringList =  new ArrayList<>();
+        stringList.add(0, "номер карты");
+        CardListFilterDAO cardListFilterDAO = new CardListFilterDAO();
+        cardListFilterDAO.setCards(stringList);
+        List<CardListFilterDAO> listFilterDAOS = new ArrayList<>();
+        listFilterDAOS.add(cardListFilterDAO);
+        offersImportModelDAO.getOffers().get(0).getRules().getEvents().get(0).getChains().get(0).setCardListFilterDAOS(listFilterDAOS);
+//
+        for (OfferDAO offerDAO : offersImportModelDAO.getOffers()) {
+            TimeRefinementDAO timeRefinementDAO = offerDAO.getTimeRefinement();
+            timeRefinementDAO.setOfferDAO(offerDAO);
+            OfferPartnersDAO offerpartnersDAO = offerDAO.getPartners();
+            offerpartnersDAO.setOfferDAO(offerDAO);
+            for (PartnerDAO partnerDAO : offerpartnersDAO.getPartners()) {
+                partnerDAO.setOfferPartnersDAO(offerpartnersDAO);
+            }
+
+            OfferRulesDAO offerRulesDAO = offerDAO.getRules();
+            offerRulesDAO.setOfferDAO(offerDAO);
+            for (OfferEventDAO offerEventDAO : offerRulesDAO.getEvents()) {
+                offerEventDAO.setOfferRulesDAO(offerRulesDAO);
+                for (OfferActionsChainDAO offerActionsChainDAO : offerEventDAO.getChains()) {
+                    offerActionsChainDAO.setOfferEventDAO(offerEventDAO);
+                    for (CardListFilterDAO filterDAO : offerActionsChainDAO.getCardListFilterDAOS()) {
+                        filterDAO.setOfferActionsChainDAO(offerActionsChainDAO);
+
+                    }
+                    for (FilterDAO filterDAO : offerActionsChainDAO.getFilters()) {
+                        filterDAO.setOfferActionsChainDAO(offerActionsChainDAO);
+
+                    }
+                    for (ActionDAO actionDAO : offerActionsChainDAO.getActions()) {
+                        actionDAO.setOfferActionsChainDAO(offerActionsChainDAO);
+                    }
+                }
+
+            }
+
+
+            offerDAO.setOffersImportModelDAO(offersImportModelDAO);
+        }
+          System.out.println("Я здесяяяяя"+offersImportModelDAO.getOffers().get(0).getPartners().getPartners().get(0));
         offersImportModelRepository.save(offersImportModelDAO);
         Optional<OffersImportModelDAO> offersImportModelDAO2 = offersImportModelRepository.findById(idOffer);
         System.out.println(offersImportModelDAO2.get());
+
+        //  offersImportModelDAO2.get().getOffers().get(0).getRules().getEvents().get(0).getChains().get(0).getCardListFilterDAOS().get(0).setCards();
 //        HttpHeaders headers = new HttpHeaders();
 //
 //        headers.setContentType(MediaType.APPLICATION_JSON);
@@ -190,17 +247,23 @@ public class SendServiceImpl implements SendService {
 //
 //        RestTemplate restTemplate = new RestTemplate();
 //        restTemplate.postForEntity("http://localhost:9090/post", requestBody, OffersImportModel.class);
-
+        OffersImportModel offersImportModel2 = OffersImportModelMapper.OFFERS_IMPORT_MODEL_MAPPER.offersImportModelDAOToOffersImportModel(offersImportModelDAO2.get());
         try {
-            ResultModelOfOffersImportResponse resultModelOfOffersImportResponse = AccountApiExample.importModel(offersImportModel);
+            System.out.println(offersImportModel2);
+            ResultModelOfOffersImportResponse resultModelOfOffersImportResponse = AccountApiExample.importModel(offersImportModel2);
             System.out.println(resultModelOfOffersImportResponse);
 
             ResultModelOfOffersImportResponseDAO resultModelOfOffersImportResponseDAO = ResultMapper.RESULT_MAPPER.ResultModelOfOffersImportResponseToResultModelOfOffersImportResponseDAO(resultModelOfOffersImportResponse);
             System.out.println(resultModelOfOffersImportResponseDAO);
+
+
+            for (ValidationErrorDAO validationError : resultModelOfOffersImportResponseDAO.getResult().getValidationErrors()) {
+                validationError.setResultDAO(resultModelOfOffersImportResponseDAO.getResult());
+                validationError.setField("Field");
+                System.out.println(validationError);
+            }
             resultModelOfOffersImportResponseDAO.getResult().setResultModelOfOffersImportResponseDAO(resultModelOfOffersImportResponseDAO);
-           for(ValidationErrorDAO validationError: resultModelOfOffersImportResponseDAO.getResult().getValidationErrors()){
-               validationError.setResultDAO(resultModelOfOffersImportResponseDAO.getResult());
-           }
+
             resultRepository.save(resultModelOfOffersImportResponseDAO);
         } catch (IOException e) {
             e.printStackTrace();

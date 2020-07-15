@@ -4,7 +4,7 @@ package com.sas.spar.dao2.result;
 import javax.persistence.*;
 import java.util.List;
 @Entity
-@Table(name = "loymax_Result", schema = "exchange", catalog = "DDS")
+@Table(name = "result_loymax_Result", schema = "exchange", catalog = "DDS")
 public class ResultDAO {
     @Id
     @Column(name = "Result_id")
@@ -50,7 +50,7 @@ public class ResultDAO {
     private String message = null;
 
     private String messageCode = null;
-    @OneToMany(mappedBy = "resultDAO")
+    @OneToMany(mappedBy = "resultDAO", cascade = { CascadeType.ALL })
     private List<ValidationErrorDAO> validationErrors = null;
 
     @OneToOne(cascade = CascadeType.ALL)

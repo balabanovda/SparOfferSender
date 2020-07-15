@@ -15,7 +15,7 @@ package com.sas.spar.dao2.result;
 import javax.persistence.*;
 import java.util.List;
 @Entity
-@Table(name = "loymax_ValidationError", schema = "exchange", catalog = "DDS")
+@Table(name = "result_loymax_ValidationError", schema = "exchange", catalog = "DDS")
 public class ValidationErrorDAO {
     @Id
     @Column(name = "ValidationError_id")
@@ -28,7 +28,7 @@ public class ValidationErrorDAO {
 //    private List<String> errorMessages = null;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "Result_id",  nullable = false)
+    @JoinColumn(name = "Result_id")
     ResultDAO resultDAO;
     public String getField() {
         return field;

@@ -3,7 +3,7 @@ package com.sas.spar.dao2.result;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "loymax_ResultModelOfOffersImportResponse", schema = "exchange", catalog = "DDS")
+@Table(name = "result_loymax_ResultModelOfOffersImportResponse", schema = "exchange", catalog = "DDS")
 public class ResultModelOfOffersImportResponseDAO {
 
     @Id
@@ -14,7 +14,7 @@ public class ResultModelOfOffersImportResponseDAO {
 
     @OneToOne(mappedBy = "resultModelOfOffersImportResponseDAO",cascade = {CascadeType.ALL})
     private ResultDAO result = null;
-    @OneToOne(mappedBy = "resultModelOfOffersImportResponseDAO")
+    @OneToOne(mappedBy = "resultModelOfOffersImportResponseDAO", cascade = CascadeType.ALL)
     private OffersImportResponseDAO data = null;
 
 

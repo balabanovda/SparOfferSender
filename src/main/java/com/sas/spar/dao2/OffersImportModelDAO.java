@@ -20,7 +20,7 @@ public class OffersImportModelDAO {
     @SequenceGenerator(name = "OffersImportModel_id_generator", sequenceName = "OffersImportModel_id_seq", schema = "exchange", allocationSize = 1)
     private Long id;
 
-    @OneToMany(mappedBy = "offersImportModelDAO")
+    @OneToMany(mappedBy = "offersImportModelDAO", cascade = { CascadeType.ALL }, orphanRemoval = true)
     private List<OfferDAO> offers = null;
 
     public enum VersionEnum {

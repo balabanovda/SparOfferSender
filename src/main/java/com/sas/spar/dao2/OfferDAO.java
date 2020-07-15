@@ -95,7 +95,7 @@ public class OfferDAO {
     private Integer priority = null;
 
     private Boolean isSum = null;
-    @OneToOne(mappedBy = "offerDAO")
+    @OneToOne(mappedBy = "offerDAO", cascade = {CascadeType.ALL})
     private TimeRefinementDAO timeRefinement = null;
 
     private String description = null;
@@ -103,15 +103,15 @@ public class OfferDAO {
     private String category = null;
 
     private Integer marketingCampaign = null;
-    @OneToOne(mappedBy = "offerDAO")
+    @OneToOne(mappedBy = "offerDAO", cascade = {CascadeType.ALL})
     private OfferPartnersDAO partnersDAO = null;
-    @OneToOne(mappedBy = "offerDAO")
+    @OneToOne(mappedBy = "offerDAO", cascade = {CascadeType.ALL})
     private OfferLoyaltyProgramsDAO loyaltyProgramsDAO = null;
-    @OneToOne(mappedBy = "offerDAO")
+    @OneToOne(mappedBy = "offerDAO", cascade = {CascadeType.ALL})
     private PointsOfSalesDAO pointsOfSalesDAO = null;
 //    @OneToMany(mappedBy = "offerDAO", cascade = {CascadeType.ALL})
 //    private List<BaseTargetGroupDAO> targetGroups = null;
-    @OneToOne(mappedBy = "offerDAO")
+    @OneToOne(mappedBy = "offerDAO", cascade = {CascadeType.ALL})
     private OfferRulesDAO rulesDAO = null;
 
     private OffsetDateTime applyChangesDate = null;

@@ -12,11 +12,11 @@ public class OfferPartnersDAO {
     @SequenceGenerator(name = "OfferPartners_id_generator", sequenceName = "OfferPartners_id_seq", schema = "exchange", allocationSize = 1)
     private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "offer_id", referencedColumnName = "offer_id")
     private OfferDAO offerDAO;
 
-    @OneToMany(mappedBy = "offerPartnersDAO", cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "offerPartnersDAO",orphanRemoval = true, cascade = {CascadeType.ALL})
     private List<PartnerDAO> partners = null;
 
     public Long getId() {

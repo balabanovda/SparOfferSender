@@ -1,0 +1,10 @@
+package com.sas.spar.repository;
+
+import com.sas.spar.dao2.LoyaltyProgramDAO;
+import com.sas.spar.dao2.MerchantDAO;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface MerchantRepository extends CrudRepository<MerchantDAO, Long> {
+}

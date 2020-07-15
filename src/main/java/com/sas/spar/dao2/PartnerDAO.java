@@ -13,7 +13,7 @@ public class PartnerDAO {
     private String id = null;
 
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "offerPartners_id")
     private OfferPartnersDAO offerPartnersDAO;
 

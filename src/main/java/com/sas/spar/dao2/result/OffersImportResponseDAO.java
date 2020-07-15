@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "loymax_OffersImportResponse", schema = "exchange", catalog = "DDS")
+@Table(name = "result_loymax_OffersImportResponse", schema = "exchange", catalog = "DDS")
 public class OffersImportResponseDAO {
 
     @Id
@@ -18,9 +18,9 @@ public class OffersImportResponseDAO {
     private Integer updated = null;
 
     private Integer skipped = null;
-    @OneToMany(mappedBy = "offersImportResponseDAO")
+    @OneToMany(mappedBy = "offersImportResponseDAO", cascade = CascadeType.ALL)
     private List<OfferImportErrorDAO> errors = null;
-    @OneToMany(mappedBy = "offersImportResponseDAO")
+    @OneToMany(mappedBy = "offersImportResponseDAO", cascade = CascadeType.ALL)
     private List<OfferImportWarningDAO> offerImportWarnings = null;
 
     @OneToOne(cascade = CascadeType.ALL)

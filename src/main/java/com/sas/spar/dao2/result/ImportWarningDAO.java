@@ -4,7 +4,7 @@ package com.sas.spar.dao2.result;
 import javax.persistence.*;
 import java.util.List;
 @Entity
-@Table(name = "loymax_ImportWarning", schema = "exchange", catalog = "DDS")
+@Table(name = "result_loymax_ImportWarning", schema = "exchange", catalog = "DDS")
 public class ImportWarningDAO {
     @Id
     @Column(name = "ImportWarning_id")

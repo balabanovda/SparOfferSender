@@ -1,20 +1,12 @@
 package com.sas.spar.service.impl;
 
-import com.example.demo.restclient.*;
-import com.example.demo.restclient.api.OfferImportExportApi;
-import com.example.demo.restclient.auth.*;
-import com.example.demo.restclient.model.*;
-import com.example.demo.restclient.api.AccountApi;
-import com.google.common.net.MediaType;
-import okhttp3.*;
-import org.springframework.http.HttpHeaders;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
+import restclient.api.OfferImportExportApi;
+import restclient.auth.*;
+import restclient.model.*;
+import restclient.*;
 
 
-import java.io.File;
 import java.io.IOException;
-import java.util.*;
 
 public class AccountApiExample {
 

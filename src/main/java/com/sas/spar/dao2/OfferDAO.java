@@ -114,7 +114,7 @@ public class OfferDAO {
     @OneToOne(mappedBy = "offerDAO", cascade = {CascadeType.ALL})
     private OfferRulesDAO rulesDAO = null;
 
-    private OffsetDateTime applyChangesDate = null;
+    private String applyChangesDate = null;
 
     private OffsetDateTime expirationDate = null;
 
@@ -334,16 +334,16 @@ public class OfferDAO {
         this.rulesDAO = rulesDAO;
     }
 
-    public OfferDAO applyChangesDate(OffsetDateTime applyChangesDate) {
+    public OfferDAO applyChangesDate(String applyChangesDate) {
         this.applyChangesDate = applyChangesDate;
         return this;
     }
 
-    public OffsetDateTime getApplyChangesDate() {
+    public String getApplyChangesDate() {
         return applyChangesDate;
     }
 
-    public void setApplyChangesDate(OffsetDateTime applyChangesDate) {
+    public void setApplyChangesDate(String applyChangesDate) {
         this.applyChangesDate = applyChangesDate;
     }
 

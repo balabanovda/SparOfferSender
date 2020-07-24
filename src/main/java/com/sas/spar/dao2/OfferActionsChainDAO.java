@@ -14,25 +14,14 @@ import java.util.List;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "OfferEvent_id")
     private OfferEventDAO offerEventDAO;
-    @OneToMany(mappedBy = "offerActionsChainDAO", cascade = {CascadeType.ALL})
-    private List<FilterDAO> filters = null;
+    @OneToMany(mappedBy = "offerActionsChainDAO",targetEntity = FilterDAO.class, cascade = {CascadeType.ALL})
+    private List filters = null;
     @OneToMany(mappedBy = "offerActionsChainDAO", cascade = {CascadeType.ALL})
     private List<ActionDAO> actions = null;
     @Column(name = "\"order\"")
     private Integer order = null;
 
     private String name = null;
-
-    @OneToMany(mappedBy = "offerActionsChainDAO", cascade = {CascadeType.ALL})
-    private List<CardListFilterDAO> cardListFilters = null;
-
-    public List<CardListFilterDAO> getCardListFilterDAOS() {
-        return cardListFilters;
-    }
-
-    public void setCardListFilterDAOS(List<CardListFilterDAO> cardListFilters) {
-        this.cardListFilters = cardListFilters;
-    }
 
     public List<FilterDAO> getFilters() {
         return filters;
@@ -88,7 +77,6 @@ import java.util.List;
         sb.append("class OfferActionsChainDAO {\n");
 
         sb.append("    filters: ").append(toIndentedString(filters)).append("\n");
-        sb.append("    cardListFilters: ").append(toIndentedString(cardListFilters)).append("\n");
         sb.append("    actions: ").append(toIndentedString(actions)).append("\n");
         sb.append("    order: ").append(toIndentedString(order)).append("\n");
         sb.append("    name: ").append(toIndentedString(name)).append("\n");

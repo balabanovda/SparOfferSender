@@ -11,4 +11,20 @@ public class Response<T> {
         this.meta = meta;
         this.dataBlock = dataBlock;
     }
+
+    public Meta getMeta() {
+        return meta;
+    }
+
+    public void setMeta(Meta meta) {
+        this.meta = meta;
+    }
+
+    public T getDataBlock() {
+        return dataBlock;
+    }
+
+    public void setDataBlock(T dataBlock) {
+        this.dataBlock = dataBlock;
+    }
 }

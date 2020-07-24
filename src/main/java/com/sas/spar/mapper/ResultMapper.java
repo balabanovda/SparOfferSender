@@ -1,6 +1,6 @@
 package com.sas.spar.mapper;
 
-import com.example.demo.restclient.model.ResultModelOfOffersImportResponse;
+import restclient.model.ResultModelOfOffersImportResponse;
 import com.sas.spar.dao2.result.ResultModelOfOffersImportResponseDAO;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;

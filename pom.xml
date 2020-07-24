@@ -170,9 +170,9 @@
 <!--							<library>resttemplate</library>-->
 <!--							<output>${project.basedir}/target/generated-sources/</output>-->
 
-<!--							<apiPackage>com.example.demo.restclient.api</apiPackage>-->
-<!--							<modelPackage>com.example.demo.restclient.model</modelPackage>-->
-<!--							<invokerPackage>com.example.demo.restclient</invokerPackage>-->
+<!--							<apiPackage>restclient.api</apiPackage>-->
+<!--							<modelPackage>restclient.model</modelPackage>-->
+<!--							<invokerPackage>restclient</invokerPackage>-->
 
 <!--							<generateApiTests>false</generateApiTests>-->
 <!--							<generateModelTests>false</generateModelTests>-->

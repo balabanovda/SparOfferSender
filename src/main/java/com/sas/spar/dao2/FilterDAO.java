@@ -3,6 +3,7 @@ package com.sas.spar.dao2;
 import javax.persistence.*;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Table(name = "loymax_Filter", schema = "exchange", catalog = "DDS")
 public class FilterDAO {
 

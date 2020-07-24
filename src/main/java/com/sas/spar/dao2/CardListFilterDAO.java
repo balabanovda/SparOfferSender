@@ -11,18 +11,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "loymax_CardListFilter", schema = "exchange", catalog = "DDS")
-public class CardListFilterDAO {
+public class CardListFilterDAO extends FilterDAO{
 
-    @Id
-    @Column(name = "CardListFilter_id")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CardListFilter_id_generator")
-    @SequenceGenerator(name = "CardListFilter_id_generator", sequenceName = "CardListFilter_id_seq", schema = "exchange", allocationSize = 1)
-    private Long id;
+//    @Id
+//    @Column(name = "CardListFilter_id")
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CardListFilter_id_generator")
+//    @SequenceGenerator(name = "CardListFilter_id_generator", sequenceName = "CardListFilter_id_seq", schema = "exchange", allocationSize = 1)
+//    private Long id;
+
+
 
     private String name = null;
     @ElementCollection
-    @CollectionTable(schema = "exchange", catalog = "DDS", name="loymax_cards_number", joinColumns=@JoinColumn(name="CardListFilter_id"))
+    @CollectionTable(schema = "exchange", catalog = "DDS", name="loymax_cards_number", joinColumns=@JoinColumn(table = "loymax_Filter",name="Filter_id"))
     @Column(name="cards_number")
     private List<String> cards = null;
     @ManyToOne(cascade = CascadeType.ALL)
@@ -55,13 +56,13 @@ public class CardListFilterDAO {
         this.cards = cards;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+//    public Long getId() {
+//        return id;
+//    }
+//
+//    public void setId(Long id) {
+//        this.id = id;
+//    }
 
     @Override
     public String toString() {

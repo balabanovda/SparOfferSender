@@ -1,6 +1,7 @@
 package com.sas.spar.service.impl;
 
-import com.example.demo.restclient.model.*;
+import org.jetbrains.annotations.NotNull;
+import restclient.model.*;
 import com.sas.spar.dao2.*;
 import com.sas.spar.dao2.result.ResultModelOfOffersImportResponseDAO;
 import com.sas.spar.dao2.result.ValidationErrorDAO;
@@ -15,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -133,9 +135,9 @@ public class SendServiceImpl implements SendService {
         offersImportModel.setVersion(OffersImportModel.VersionEnum.VERSION20);
         List<OfferDto> listOfferDto = new ArrayList<>();
         OfferDto offerDto = new OfferDto();
-        offerDto.setTitle("Название акции");
-        offerDto.setId("dfc9287c-67cc-4254-8ee1-c974erf42rt9");
-        offerDto.setApplyChangesDateValue("2021-01-16T11:33:10");
+        offerDto.setTitle("Тест Лоймакс");
+        offerDto.setId("3d98ea2e-cd92-48c7-bea9-d60662bdddbc");
+        offerDto.setApplyChangesDateValue("2020-07-23T10:25:49");
         offerDto.setExpirationDate(null);
         offerDto.setWorkingState(OfferDto.WorkingStateEnum.STOPPED);
         offerDto.setChangesState(OfferDto.ChangesStateEnum.APPROVED);
@@ -145,28 +147,45 @@ public class SendServiceImpl implements SendService {
         ArrayList<TimeRefinementDto.DaysOfWeekEnum> daysOfWeekEnums = new ArrayList<>();
         daysOfWeekEnums.add(0, TimeRefinementDto.DaysOfWeekEnum.FRIDAY);
         timeRefinementDto.setDaysOfWeek(daysOfWeekEnums);
-        offerDto.setTimeRefinement(timeRefinementDto);
+//        offerDto.setTimeRefinement(timeRefinementDto);
+        offerDto.setTimeRefinement(null);
         offerDto.setDescription("");
         offerDto.setCategory(null);
         OfferPartners offerPartners = new OfferPartners();
         List<PartnerDto> partnersDto = new ArrayList();
         PartnerDto partnerDto = new PartnerDto();
-        partnerDto.setId("016e8025-7068-43e5-c689-8b01e638c43a");
+        partnerDto.setId("ccdf591b-9425-4739-ad7d-1feb7a9fe255");
         partnersDto.add(partnerDto);
         offerPartners.setPartners(partnersDto);
         offerDto.setPartners(offerPartners);
         offerDto.setPointsOfSales(null);
         offerDto.setTargetGroups(null);
-        FilterDto filterDto = new FilterDto();
-        filterDto.setName("Filter's name");
-        ActionDto actionDto = new ActionDto();
-        actionDto.setId("Id Action");
+        OfferLoyaltyPrograms offerLoyaltyPrograms = new OfferLoyaltyPrograms();
+        List<LoyaltyProgramDto> loyaltyProgramDtoList = new ArrayList<>();
+        LoyaltyProgramDto loyaltyProgramDto = new LoyaltyProgramDto();
+        loyaltyProgramDto.setId("Default");
+        loyaltyProgramDtoList.add(loyaltyProgramDto);
+        offerLoyaltyPrograms.setLoyaltyPrograms(loyaltyProgramDtoList);
+        offerDto.setLoyaltyPrograms(offerLoyaltyPrograms);
+
+        DirectDiscountActionDto actionDto = new DirectDiscountActionDto();
+        actionDto.setId("118587");
         actionDto.setOrder(1);
+        actionDto.setDiscountType(DirectDiscountActionDto.DiscountTypeEnum.PERCENT);
+        actionDto.setPercent(5.0);
+        actionDto.setType("Loymax.ImportExport.Dto.Offers.Actions.DirectDiscountActionDto, Loymax.ImportExport.Dto");
+        actionDto.setDistributeToAll(false);
+        actionDto.setCalculationExclusionDiscountTypes(new ArrayList<DirectDiscountActionDto.CalculationExclusionDiscountTypesEnum>());
         OfferActionsChainDto offerActionsChainDto = new OfferActionsChainDto();
         List<ActionDto> actionsDto = new ArrayList<ActionDto>();
         actionsDto.add(actionDto);
         List<FilterDto> filtersDto = new ArrayList<>();
-        filtersDto.add(filterDto);
+        CardListFilterDto cardListFilterDto = new CardListFilterDto();
+        List<String> stringList = new ArrayList<>();
+        stringList.add(0, "9152187694694847");
+        cardListFilterDto.setCards(stringList);
+        cardListFilterDto.setName("Список карт");
+        filtersDto.add(cardListFilterDto);
         offerActionsChainDto.setActions(actionsDto);
         offerActionsChainDto.setFilters(filtersDto);
         offerActionsChainDto.setName("Название цепочки действий");
@@ -182,72 +201,97 @@ public class SendServiceImpl implements SendService {
         offerDto.setRules(offerRules);
         OffsetDateTime offsetDateTime = OffsetDateTime.now();
 
-        offerDto.setApplyChangesDate(offsetDateTime);
+        // offerDto.setApplyChangesDate(offsetDateTime);
 
         listOfferDto.add(offerDto);
-        System.out.println(listOfferDto);
         offersImportModel.setOffers(listOfferDto);
         System.out.println(offersImportModel);
         OffersImportModelDAO offersImportModelDAO = OffersImportModelMapper.OFFERS_IMPORT_MODEL_MAPPER.offersImportModelToOffersImportModelDAO(offersImportModel);
         System.out.println(offersImportModelDAO);
-
-        List<String> stringList =  new ArrayList<>();
-        stringList.add(0, "номер карты");
-        CardListFilterDAO cardListFilterDAO = new CardListFilterDAO();
-        cardListFilterDAO.setCards(stringList);
-        List<CardListFilterDAO> listFilterDAOS = new ArrayList<>();
-        listFilterDAOS.add(cardListFilterDAO);
-        offersImportModelDAO.getOffers().get(0).getRules().getEvents().get(0).getChains().get(0).setCardListFilterDAOS(listFilterDAOS);
-//
-        for (OfferDAO offerDAO : offersImportModelDAO.getOffers()) {
-            TimeRefinementDAO timeRefinementDAO = offerDAO.getTimeRefinement();
-            timeRefinementDAO.setOfferDAO(offerDAO);
-            OfferPartnersDAO offerpartnersDAO = offerDAO.getPartners();
-            offerpartnersDAO.setOfferDAO(offerDAO);
-            for (PartnerDAO partnerDAO : offerpartnersDAO.getPartners()) {
-                partnerDAO.setOfferPartnersDAO(offerpartnersDAO);
-            }
-
-            OfferRulesDAO offerRulesDAO = offerDAO.getRules();
-            offerRulesDAO.setOfferDAO(offerDAO);
-            for (OfferEventDAO offerEventDAO : offerRulesDAO.getEvents()) {
-                offerEventDAO.setOfferRulesDAO(offerRulesDAO);
-                for (OfferActionsChainDAO offerActionsChainDAO : offerEventDAO.getChains()) {
-                    offerActionsChainDAO.setOfferEventDAO(offerEventDAO);
-                    for (CardListFilterDAO filterDAO : offerActionsChainDAO.getCardListFilterDAOS()) {
-                        filterDAO.setOfferActionsChainDAO(offerActionsChainDAO);
-
-                    }
-                    for (FilterDAO filterDAO : offerActionsChainDAO.getFilters()) {
-                        filterDAO.setOfferActionsChainDAO(offerActionsChainDAO);
-
-                    }
-                    for (ActionDAO actionDAO : offerActionsChainDAO.getActions()) {
-                        actionDAO.setOfferActionsChainDAO(offerActionsChainDAO);
+        if (offersImportModelDAO != null) {
+            for (OfferDAO offerDAO : offersImportModelDAO.getOffers()) {
+                TimeRefinementDAO timeRefinementDAO = offerDAO.getTimeRefinement();
+                if (timeRefinementDAO != null) {
+                    timeRefinementDAO.setOfferDAO(offerDAO);
+                }
+                OfferLoyaltyProgramsDAO offerLoyaltyPrograms1 = offerDAO.getLoyaltyPrograms();
+                if (offerLoyaltyPrograms1 != null) {
+                    offerLoyaltyPrograms1.setOfferDAO(offerDAO);
+                    List<LoyaltyProgramDAO> loyaltyProgramDAOList = offerLoyaltyPrograms1.getLoyaltyPrograms();
+                    if (loyaltyProgramDAOList != null) {
+                        for (LoyaltyProgramDAO loyaltyProgramDAO : loyaltyProgramDAOList) {
+                            loyaltyProgramDAO.setOfferLoyaltyProgramsDAO(offerLoyaltyPrograms1);
+                        }
                     }
                 }
+                OfferPartnersDAO offerpartnersDAO = offerDAO.getPartners();
+                if (offerpartnersDAO != null) {
+                    offerpartnersDAO.setOfferDAO(offerDAO);
+                    List<PartnerDAO> partnerDAOList = offerpartnersDAO.getPartners();
+                    if (partnerDAOList != null) {
+                        for (PartnerDAO partnerDAO : partnerDAOList) {
+                            partnerDAO.setOfferPartnersDAO(offerpartnersDAO);
+                        }
+                    }
+                }
+                OfferRulesDAO offerRulesDAO = offerDAO.getRules();
+                if (offerRulesDAO != null) {
+                    offerRulesDAO.setOfferDAO(offerDAO);
+                    List<OfferEventDAO> offerEventDAOList = offerRulesDAO.getEvents();
+                    if (offerEventDAOList != null) {
+                        for (OfferEventDAO offerEventDAO : offerEventDAOList) {
+                            offerEventDAO.setOfferRulesDAO(offerRulesDAO);
+                            List<OfferActionsChainDAO> offerActionsChainDAOList = offerEventDAO.getChains();
+                            if (offerActionsChainDAOList != null) {
+                                for (OfferActionsChainDAO offerActionsChainDAO : offerActionsChainDAOList) {
+                                    offerActionsChainDAO.setOfferEventDAO(offerEventDAO);
+                                    List<FilterDAO> filterDAOList = offerActionsChainDAO.getFilters();
+                                    if (filterDAOList != null) {
+                                        for (FilterDAO filterDAO : filterDAOList) {
+                                            if (filterDAO instanceof CardListFilterDAO) {
 
+                                            }
+                                            filterDAO.setOfferActionsChainDAO(offerActionsChainDAO);
+
+                                        }
+                                    }
+                                    List<ActionDAO> actionDAOList = offerActionsChainDAO.getActions();
+                                    if (actionDAOList != null) {
+                                        for (ActionDAO actionDAO : actionDAOList) {
+                                            actionDAO.setOfferActionsChainDAO(offerActionsChainDAO);
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                }
+                offerDAO.setOffersImportModelDAO(offersImportModelDAO);
             }
-
-
-            offerDAO.setOffersImportModelDAO(offersImportModelDAO);
         }
-          System.out.println("Я здесяяяяя"+offersImportModelDAO.getOffers().get(0).getPartners().getPartners().get(0));
+        System.out.println("235 строка: " + offersImportModelDAO.getOffers().get(0).getPartners().getPartners().get(0));
         offersImportModelRepository.save(offersImportModelDAO);
         Optional<OffersImportModelDAO> offersImportModelDAO2 = offersImportModelRepository.findById(idOffer);
         System.out.println(offersImportModelDAO2.get());
 
         //  offersImportModelDAO2.get().getOffers().get(0).getRules().getEvents().get(0).getChains().get(0).getCardListFilterDAOS().get(0).setCards();
-//        HttpHeaders headers = new HttpHeaders();
-//
-//        headers.setContentType(MediaType.APPLICATION_JSON);
-//        headers.add("username","user" );
-//        headers.add("password","password" );
-//        HttpEntity<OffersImportModel> requestBody = new HttpEntity<>(offersImportModel, headers);
-//
-//        RestTemplate restTemplate = new RestTemplate();
-//        restTemplate.postForEntity("http://localhost:9090/post", requestBody, OffersImportModel.class);
         OffersImportModel offersImportModel2 = OffersImportModelMapper.OFFERS_IMPORT_MODEL_MAPPER.offersImportModelDAOToOffersImportModel(offersImportModelDAO2.get());
+
+        offersImportModel2.getOffers().get(0).getRules().getEvents().get(0).setType("Loymax.ImportExport.Dto.Offers.Events.PurchaseCalculateEventDto, Loymax.ImportExport.Dto");
+        if (offersImportModel2.getOffers().get(0).getRules().getEvents().get(0).getChains().get(0).getFilters().get(0) instanceof CardListFilterDto) {
+            offersImportModel2.getOffers().get(0).getRules().getEvents().get(0).getChains().get(0).getFilters().get(0).setType("Loymax.ImportExport.Dto.Offers.Filters.CardListFilterDto, Loymax.ImportExport.Dto");
+
+        }
+        if (offersImportModel2.getOffers().get(0).getRules().getEvents().get(0).getChains().get(0).getActions().get(0) instanceof DirectDiscountActionDto) {
+            offersImportModel2.getOffers().get(0).getRules().getEvents().get(0).getChains().get(0).getActions().get(0).setType("Loymax.ImportExport.Dto.Offers.Actions.DirectDiscountActionDto, Loymax.ImportExport.Dto");
+
+        }
+        //offersImportModel2.getOffers().get(0).getRules().getEvents().get(0).getChains().get(0).setActions(listActionDto);
+        OffsetDateTime offsetDateTime2 = OffsetDateTime.now();
+        // offersImportModel2.getOffers().get(0).setApplyChangesDate(offsetDateTime2.plusDays(1L).format(DateTimeFormatter.ISO_INSTANT));
+        offersImportModel2.getOffers().get(0).setApplyChangesDate("2020-07-23T11:45:49Z");
+
         try {
             System.out.println(offersImportModel2);
             ResultModelOfOffersImportResponse resultModelOfOffersImportResponse = AccountApiExample.importModel(offersImportModel2);
@@ -256,16 +300,17 @@ public class SendServiceImpl implements SendService {
             ResultModelOfOffersImportResponseDAO resultModelOfOffersImportResponseDAO = ResultMapper.RESULT_MAPPER.ResultModelOfOffersImportResponseToResultModelOfOffersImportResponseDAO(resultModelOfOffersImportResponse);
             System.out.println(resultModelOfOffersImportResponseDAO);
 
-
-            for (ValidationErrorDAO validationError : resultModelOfOffersImportResponseDAO.getResult().getValidationErrors()) {
-                validationError.setResultDAO(resultModelOfOffersImportResponseDAO.getResult());
-                validationError.setField("Field");
-                System.out.println(validationError);
+            if (resultModelOfOffersImportResponseDAO.getResult().getValidationErrors() != null) {
+                for (ValidationErrorDAO validationError : resultModelOfOffersImportResponseDAO.getResult().getValidationErrors()) {
+                    validationError.setResultDAO(resultModelOfOffersImportResponseDAO.getResult());
+                    validationError.setField("Field");
+                    System.out.println(validationError);
+                }
             }
             resultModelOfOffersImportResponseDAO.getResult().setResultModelOfOffersImportResponseDAO(resultModelOfOffersImportResponseDAO);
 
             resultRepository.save(resultModelOfOffersImportResponseDAO);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

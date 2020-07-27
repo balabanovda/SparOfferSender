@@ -1,5 +1,6 @@
 package restclient.api;
 
+import org.springframework.beans.factory.annotation.Value;
 import restclient.ApiClient;
 
 import restclient.model.CreateOfferModel;
@@ -42,6 +43,9 @@ public class OfferImportExportApi {
     public OfferImportExportApi(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
+
+
+
 
     public ApiClient getApiClient() {
         return apiClient;
@@ -291,6 +295,7 @@ public class OfferImportExportApi {
      * @return ResponseEntity&lt;ResultModelOfOffersImportResponse&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
+
     public ResponseEntity<ResultModelOfOffersImportResponse> offerImportExportPostOffersWithHttpInfo(OffersImportModel importModel, Boolean cancelDrafts) throws RestClientException {
         Object postBody = importModel;
 
@@ -314,15 +319,16 @@ public class OfferImportExportApi {
 //        formParams.add("password", "123456");
 //        formParams.add("grant_type", "password");
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "cancelDrafts", cancelDrafts));
-       // headerParams.add("Content-Type", "application/x-www-form-urlencoded");
-        headerParams.add("Authorization", "Bearer qQ-TKgNu9RMsoHE4nPzS5MIZtBWInDNQLWmWxvishS8rC7vEzvGKT3TvZ_kez4Q4J_T7w5fE_y_34LXSbvCCDgV6XWR02xCefxOb5CCd8YuG77rAHZcr8uH6Y3VWH7SegDcoQCMhUMQqIhWfnnbqEGjX4HFu70YEnAJpKPW1raVJ6HZDwWRN82dJxM9_KmbAMgmn8vYC1EAZB_bc3pLutIcrjD_kCn97w401bj6TY9GFzXHGRy8Bw1VtNhyTKdlsKgMHh9WzhQi2lvABV0TniF7jncLM44QPpsNUz9Fq35-sYY7kufjjbOEroDUjMWJF9OnVBEbw43wb-sRnc3qWdorwdtdK_jjMg05ovAAeXfCE784D2B8FH_cazKD7pa3Qw-5TJ8023kNuwBRhJ8BpmuS12sdy7VvxsHtL9-Wy8KkBBLjDanmo6JyUnHPX8Bw2hFS-l37b5YhLDQvzmTbvBpzbXZcBZa4EblFiWATajNJmIa05JgKIQsLnmP4Cerb1rEA6nzbxMUYW3kpQcJw-avzl1po6Fv0bbsDEZvjJXdhYDtErevW6D4D_eO6VGPiDT1tJiBLPbiSNp1_hv2x7NE_9ITh7Q439dycFTcQ2pQrnPplvYEJu91PEXIstEycr78s2roWhDFnGdhHHyfWtlJc1bdW6zEZ0vKCa_bNyiYFe3okvntEiUcPBTFgbtPhWmZKRxYl-n7LU-_zWJkePk209zZvkEeOYMk_0-uxUM17EPI2d6GSkGtnN2ueB2uKMtS6_PzTe1R3LX7izxkdE68emsFef19lyZYZWdVC8WfW9AopFS5C3euEsIEwgQnCX5Yxl-M6DjTNJigyFhQDs_cBLGeiXC5kHmuusJLF5tmNMBVThjbw3sqjidkyETOwV9tgs5s7Qd1t5vq_eRLCD4QLFXeajMrLSrcfRm3BhFgbTl5DSTwHsPUwVbIatoohn3he38d52g4RCT_hgxiOMonvxGvweDI6lDhE18TUOiztmAiT45AaKM9FxGI-e-_Sr4i6LjiNcUBx68FY27wmyGldwbDtePKz-Qdo7q1bYq1HgrFWhR1dD57Shs5TVb-n1OEn3q6j5R4sWSVfRPAQTfOlMIgrUM7nAcSUa_lQzbxV3TSREzbKZ_neURcdy_hAEcnVtePoiCYtCKG7Bao6EP95bWJUnkuHcg9FiBF0d2MM");
+        // headerParams.add("Content-Type", "application/x-www-form-urlencoded");
+
+        headerParams.add("Authorization", "Bearer ");
 
         final String[] accepts = {
                 "*/*"
         };
         final List<MediaType> accept = apiClient.selectHeaderAccept(accepts);
         final String[] contentTypes = {
-            "application/x-www-form-urlencoded", "application/json", "text/json", "application/xml", "text/xml"
+                "application/x-www-form-urlencoded", "application/json", "text/json", "application/xml", "text/xml"
         };
         final MediaType contentType = MediaType.APPLICATION_JSON;
         System.out.println(contentType + "330 строка OfferImportExportApi");

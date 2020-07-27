@@ -12,6 +12,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@Table(name = "loymax_DirectDiscountAction", schema = "exchange", catalog = "DDS")
 public class DirectDiscountActionDAO extends ActionDAO {
 @Column(name = "\"percent\"")
     private Double percent = null;
@@ -33,7 +34,8 @@ public class DirectDiscountActionDAO extends ActionDAO {
     private Double amountPerWeight = null;
 
     private Double price = null;
-
+    @OneToOne(mappedBy = "directDiscountActionDAO", cascade = {CascadeType.ALL})
+    private AttributeDiscountDAO attributeDiscount = null;
 
     private Boolean distributeToAll = null;
 
@@ -141,6 +143,13 @@ public class DirectDiscountActionDAO extends ActionDAO {
         this.amountPerUniqueSku = amountPerUniqueSku;
     }
 
+    public AttributeDiscountDAO getAttributeDiscount() {
+        return attributeDiscount;
+    }
+
+    public void setAttributeDiscount(AttributeDiscountDAO attributeDiscount) {
+        this.attributeDiscount = attributeDiscount;
+    }
 
     public Double getPricePerUnit() {
         return pricePerUnit;

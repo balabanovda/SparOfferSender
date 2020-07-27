@@ -15,6 +15,7 @@ package restclient.model;
 
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 
 /**
@@ -24,42 +25,48 @@ import io.swagger.annotations.ApiModel;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-06-25T13:30:11.810+03:00")
 public class BaseGoodsGroupDto {
 
-  @Override
-  public boolean equals(java.lang.Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    return true;
+  @JsonProperty("$type")
+  private String type = null;
+
+  @JsonProperty("id")
+  private String id = null;
+
+  @JsonProperty("goodsGroupState")
+  private String goodsGroupState = null;
+
+
+  public String getType() {
+    return type;
   }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash();
+  public void setType(String type) {
+    this.type = type;
+  }
+
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
+
+  public String getGoodsGroupState() {
+    return goodsGroupState;
+  }
+
+  public void setGoodsGroupState(String goodsGroupState) {
+    this.goodsGroupState = goodsGroupState;
   }
 
 
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class BaseGoodsGroupDto {\n");
-    
-    sb.append("}");
-    return sb.toString();
+    return "BaseGoodsGroupDto{" +
+            "type='" + type + '\'' +
+            ", id='" + id + '\'' +
+            ", goodsGroupState='" + goodsGroupState + '\'' +
+            '}';
   }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
-
 }
 

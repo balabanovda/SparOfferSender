@@ -158,7 +158,16 @@ public class SendServiceImpl implements SendService {
         partnersDto.add(partnerDto);
         offerPartners.setPartners(partnersDto);
         offerDto.setPartners(offerPartners);
-        offerDto.setPointsOfSales(null);
+        List<MerchantDto> merchantDtoList = new ArrayList<>();
+        MerchantDto merchantDto1 = new MerchantDto();
+        merchantDto1.setId("7afe7fbf-e621-4571-9bb0-fcfecff80be7");
+        MerchantDto merchantDto = new MerchantDto();
+        merchantDto.setId("b5e1409f-9e20-49c9-b96c-1d45e1f1f797");
+        merchantDtoList.add(merchantDto1);
+        merchantDtoList.add(merchantDto);
+        PointsOfSales pointsOfSalesDto = new PointsOfSales();
+        pointsOfSalesDto.setMerchants(merchantDtoList);
+        offerDto.setPointsOfSales(pointsOfSalesDto);
         offerDto.setTargetGroups(null);
         OfferLoyaltyPrograms offerLoyaltyPrograms = new OfferLoyaltyPrograms();
         List<LoyaltyProgramDto> loyaltyProgramDtoList = new ArrayList<>();
@@ -180,12 +189,29 @@ public class SendServiceImpl implements SendService {
         List<ActionDto> actionsDto = new ArrayList<ActionDto>();
         actionsDto.add(actionDto);
         List<FilterDto> filtersDto = new ArrayList<>();
-        CardListFilterDto cardListFilterDto = new CardListFilterDto();
-        List<String> stringList = new ArrayList<>();
-        stringList.add(0, "9152187694694847");
-        cardListFilterDto.setCards(stringList);
-        cardListFilterDto.setName("Список карт");
-        filtersDto.add(cardListFilterDto);
+//        CardListFilterDto cardListFilterDto = new CardListFilterDto();
+//        List<String> stringList = new ArrayList<>();
+//        stringList.add(0, "9152187694694847");
+//        cardListFilterDto.setCards(stringList);
+//        cardListFilterDto.setName("Список карт");
+//        ChequeSumFilterDto chequeSumFilterDto = new ChequeSumFilterDto();
+//        chequeSumFilterDto.setOperator(ChequeSumFilterDto.OperatorEnum.MOREOREQUAL);
+//        chequeSumFilterDto.setFirstValue(600.0);
+//        chequeSumFilterDto.setName("Сумма чека");
+        ChequePositionGoodsFilterDto chequePositionGoodsFilterDto = new ChequePositionGoodsFilterDto();
+        chequePositionGoodsFilterDto.setType("Loymax.ImportExport.Dto.Offers.Filters.ChequePositionGoodsFilterDto, Loymax.ImportExport.Dto");
+        chequePositionGoodsFilterDto.setTypeEnum(ChequePositionGoodsFilterDto.TypeEnum.ONLYGOODS);
+        chequePositionGoodsFilterDto.setName("Товар");
+        BaseGoodsGroupDto baseGoodsGroupDto = new BaseGoodsGroupDto();
+        baseGoodsGroupDto.setGoodsGroupState("Visible");
+        baseGoodsGroupDto.setId("d8fd8ae3-5726-4c5d-87e1-d6408498b44e");
+        baseGoodsGroupDto.setType("Loymax.ImportExport.Dto.Offers.Filters.GoodsGroupDto, Loymax.ImportExport.Dto");
+        List<BaseGoodsGroupDto> baseGoodsGroupDtoList = new ArrayList<>();
+        baseGoodsGroupDtoList.add(baseGoodsGroupDto);
+        chequePositionGoodsFilterDto.setGoodsGroups(baseGoodsGroupDtoList);
+//        filtersDto.add(cardListFilterDto);
+//        filtersDto.add(chequeSumFilterDto);
+        filtersDto.add(chequePositionGoodsFilterDto);
         offerActionsChainDto.setActions(actionsDto);
         offerActionsChainDto.setFilters(filtersDto);
         offerActionsChainDto.setName("Название цепочки действий");
@@ -213,6 +239,16 @@ public class SendServiceImpl implements SendService {
                 TimeRefinementDAO timeRefinementDAO = offerDAO.getTimeRefinement();
                 if (timeRefinementDAO != null) {
                     timeRefinementDAO.setOfferDAO(offerDAO);
+                }
+                PointsOfSalesDAO pointsOfSalesDAO = offerDAO.getPointsOfSales();
+                if (pointsOfSalesDAO != null) {
+                    pointsOfSalesDAO.setOfferDAO(offerDAO);
+                    List<MerchantDAO> merchantDAOList = pointsOfSalesDAO.getMerchants();
+                    if (merchantDAOList != null) {
+                        for (MerchantDAO merchantDAO : merchantDAOList) {
+                            merchantDAO.setPointsOfSalesDAO(pointsOfSalesDAO);
+                        }
+                    }
                 }
                 OfferLoyaltyProgramsDAO offerLoyaltyPrograms1 = offerDAO.getLoyaltyPrograms();
                 if (offerLoyaltyPrograms1 != null) {
@@ -248,8 +284,10 @@ public class SendServiceImpl implements SendService {
                                     List<FilterDAO> filterDAOList = offerActionsChainDAO.getFilters();
                                     if (filterDAOList != null) {
                                         for (FilterDAO filterDAO : filterDAOList) {
-                                            if (filterDAO instanceof CardListFilterDAO) {
-
+                                            if (filterDAO instanceof ChequePositionGoodsFilterDAO) {
+                                                for (BaseGoodsGroupDAO baseGoodsGroupDAO : ((ChequePositionGoodsFilterDAO) filterDAO).getGoodsGroups()) {
+                                                    baseGoodsGroupDAO.setChequePositionGoodsFilterDAO((ChequePositionGoodsFilterDAO) filterDAO);
+                                                }
                                             }
                                             filterDAO.setOfferActionsChainDAO(offerActionsChainDAO);
 
@@ -279,9 +317,19 @@ public class SendServiceImpl implements SendService {
         OffersImportModel offersImportModel2 = OffersImportModelMapper.OFFERS_IMPORT_MODEL_MAPPER.offersImportModelDAOToOffersImportModel(offersImportModelDAO2.get());
 
         offersImportModel2.getOffers().get(0).getRules().getEvents().get(0).setType("Loymax.ImportExport.Dto.Offers.Events.PurchaseCalculateEventDto, Loymax.ImportExport.Dto");
-        if (offersImportModel2.getOffers().get(0).getRules().getEvents().get(0).getChains().get(0).getFilters().get(0) instanceof CardListFilterDto) {
-            offersImportModel2.getOffers().get(0).getRules().getEvents().get(0).getChains().get(0).getFilters().get(0).setType("Loymax.ImportExport.Dto.Offers.Filters.CardListFilterDto, Loymax.ImportExport.Dto");
+        for (FilterDto filterDto : offersImportModel2.getOffers().get(0).getRules().getEvents().get(0).getChains().get(0).getFilters()) {
 
+            if (filterDto instanceof CardListFilterDto) {
+                filterDto.setType("Loymax.ImportExport.Dto.Offers.Filters.CardListFilterDto, Loymax.ImportExport.Dto");
+
+            } else if (filterDto instanceof ChequeSumFilterDto) {
+                filterDto.setType("Loymax.ImportExport.Dto.Offers.Filters.ChequeSumFilterDto, Loymax.ImportExport.Dto");
+            } else if (filterDto instanceof ChequePositionGoodsFilterDto) {
+                filterDto.setType("Loymax.ImportExport.Dto.Offers.Filters.ChequePositionGoodsFilterDto, Loymax.ImportExport.Dto");
+                for (BaseGoodsGroupDto baseGoodsGroupDto1 : ((ChequePositionGoodsFilterDto) filterDto).getGoodsGroups()) {
+                    baseGoodsGroupDto1.setType("Loymax.ImportExport.Dto.Offers.Filters.GoodsGroupDto, Loymax.ImportExport.Dto");
+                }
+            }
         }
         if (offersImportModel2.getOffers().get(0).getRules().getEvents().get(0).getChains().get(0).getActions().get(0) instanceof DirectDiscountActionDto) {
             offersImportModel2.getOffers().get(0).getRules().getEvents().get(0).getChains().get(0).getActions().get(0).setType("Loymax.ImportExport.Dto.Offers.Actions.DirectDiscountActionDto, Loymax.ImportExport.Dto");

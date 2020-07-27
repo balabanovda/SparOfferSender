@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "loymax_CardListFilter", schema = "exchange", catalog = "DDS")
 public class CardListFilterDAO extends FilterDAO{
 
 //    @Id

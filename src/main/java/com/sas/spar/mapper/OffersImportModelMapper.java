@@ -5,6 +5,7 @@ import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 import restclient.model.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 //import com.sas.spar.dao2.BaseTargetGroupDAO;
@@ -32,12 +33,37 @@ public interface OffersImportModelMapper {
             cardListFilterDAO.setCards(((CardListFilterDto) filterDto).getCards());
 
             return cardListFilterDAO;
+        } else if (filterDto instanceof ChequeSumFilterDto) {
+            ChequeSumFilterDAO chequeSumFilterDAO = new ChequeSumFilterDAO();
+            chequeSumFilterDAO.setFirstValue(((ChequeSumFilterDto) filterDto).getFirstValue());
+            chequeSumFilterDAO.setName(filterDto.getName());
+            chequeSumFilterDAO.setSecondValue(((ChequeSumFilterDto) filterDto).getSecondValue());
+            chequeSumFilterDAO.setOperator(operatorEnumToOperatorEnum1(((ChequeSumFilterDto) filterDto).getOperator()));
+            return chequeSumFilterDAO;
+        } else if (filterDto instanceof ChequePositionGoodsFilterDto) {
+            ChequePositionGoodsFilterDAO chequePositionGoodsFilterDAO = new ChequePositionGoodsFilterDAO();
+            chequePositionGoodsFilterDAO.setChequeGoodsSortType(chequeGoodsSortTypeEnumToChequeGoodsSortTypeEnum1(((ChequePositionGoodsFilterDto) filterDto).getChequeGoodsSortType()));
+            chequePositionGoodsFilterDAO.setDividePositions(((ChequePositionGoodsFilterDto) filterDto).isDividePositions());
+            chequePositionGoodsFilterDAO.setName(filterDto.getName());
+            chequePositionGoodsFilterDAO.setPersonalOfferAttributeLogicalName(((ChequePositionGoodsFilterDto) filterDto).getPersonalOfferAttributeLogicalName());
+            chequePositionGoodsFilterDAO.setGoodsGroups(baseGoodsGroupDtoListToBaseGoodsGroupDAOList(((ChequePositionGoodsFilterDto) filterDto).getGoodsGroups()));
+            chequePositionGoodsFilterDAO.setFirstValue(((ChequePositionGoodsFilterDto) filterDto).getFirstValue());
+            chequePositionGoodsFilterDAO.setSecondValue(((ChequePositionGoodsFilterDto) filterDto).getSecondValue());
+            chequePositionGoodsFilterDAO.setOperator(operatorEnumToOperatorEnum1(((ChequePositionGoodsFilterDto) filterDto).getOperator()));
+            chequePositionGoodsFilterDAO.setTypeEnum(typeEnumToTypeEnum1(((ChequePositionGoodsFilterDto) filterDto).getTypeEnum()));
+            return chequePositionGoodsFilterDAO;
         } else {
             FilterDAO filterDAO = new FilterDAO();
             filterDAO.setName(filterDto.getName());
             return filterDAO;
         }
     }
+
+    ChequePositionGoodsFilterDAO.ChequeGoodsSortTypeEnum chequeGoodsSortTypeEnumToChequeGoodsSortTypeEnum1(ChequePositionGoodsFilterDto.ChequeGoodsSortTypeEnum chequeGoodsSortTypeEnum);
+    ChequePositionGoodsFilterDAO.OperatorEnum operatorEnumToOperatorEnum1(ChequePositionGoodsFilterDto.OperatorEnum operatorEnum);
+    ChequePositionGoodsFilterDAO.TypeEnum typeEnumToTypeEnum1(ChequePositionGoodsFilterDto.TypeEnum typeEnum);
+    List<BaseGoodsGroupDAO> baseGoodsGroupDtoListToBaseGoodsGroupDAOList(List<BaseGoodsGroupDto> baseGoodsGroupDtoList);
+
 
     default ActionDAO actionDtoToActionDAO(ActionDto actionDto) {
 
@@ -69,6 +95,8 @@ public interface OffersImportModelMapper {
         }
     }
 
+    ChequeSumFilterDAO.OperatorEnum operatorEnumToOperatorEnum1(ChequeSumFilterDto.OperatorEnum operatorEnum);
+
     List<DirectDiscountActionDAO.CalculationExclusionDiscountTypesEnum> calculationExclusionDiscountTypesEnumListToCalculationExclusionDiscountTypesEnumList1(List<DirectDiscountActionDto.CalculationExclusionDiscountTypesEnum> calculationExclusionDiscountTypesEnumList);
 
     DirectDiscountActionDAO.DiscountTypeEnum discountTypeEnumToDiscountTypeEnum1(DirectDiscountActionDto.DiscountTypeEnum discountTypeEnum);
@@ -84,12 +112,36 @@ public interface OffersImportModelMapper {
             cardListFilterDto.setCards(((CardListFilterDAO) filterDAO).getCards());
 
             return cardListFilterDto;
-        } else {
+        } else if (filterDAO instanceof ChequeSumFilterDAO) {
+            ChequeSumFilterDto chequeSumFilterDto = new ChequeSumFilterDto();
+            chequeSumFilterDto.setFirstValue(((ChequeSumFilterDAO) filterDAO).getFirstValue());
+            chequeSumFilterDto.setName(filterDAO.getName());
+            chequeSumFilterDto.setSecondValue(((ChequeSumFilterDAO) filterDAO).getSecondValue());
+            chequeSumFilterDto.setOperator(operatorEnum1ToOperatorEnum(((ChequeSumFilterDAO) filterDAO).getOperator()));
+            return chequeSumFilterDto;
+        } else if (filterDAO instanceof ChequePositionGoodsFilterDAO) {
+            ChequePositionGoodsFilterDto chequePositionGoodsFilterDto = new ChequePositionGoodsFilterDto();
+            chequePositionGoodsFilterDto.setChequeGoodsSortType(chequeGoodsSortTypeEnum1ToChequeGoodsSortTypeEnum(((ChequePositionGoodsFilterDAO) filterDAO).getChequeGoodsSortType()));
+            chequePositionGoodsFilterDto.setDividePositions(((ChequePositionGoodsFilterDAO) filterDAO).isDividePositions());
+            chequePositionGoodsFilterDto.setName(filterDAO.getName());
+            chequePositionGoodsFilterDto.setPersonalOfferAttributeLogicalName(((ChequePositionGoodsFilterDAO) filterDAO).getPersonalOfferAttributeLogicalName());
+            chequePositionGoodsFilterDto.setGoodsGroups(baseGoodsGroupDAOListToBaseGoodsGroupDtoList(((ChequePositionGoodsFilterDAO) filterDAO).getGoodsGroups()));
+            chequePositionGoodsFilterDto.setFirstValue(((ChequePositionGoodsFilterDAO) filterDAO).getFirstValue());
+            chequePositionGoodsFilterDto.setSecondValue(((ChequePositionGoodsFilterDAO) filterDAO).getSecondValue());
+            chequePositionGoodsFilterDto.setOperator(operatorEnum1ToOperatorEnum(((ChequePositionGoodsFilterDAO) filterDAO).getOperator()));
+            chequePositionGoodsFilterDto.setTypeEnum(typeEnum1ToTypeEnum(((ChequePositionGoodsFilterDAO) filterDAO).getTypeEnum()));
+            return chequePositionGoodsFilterDto;
+        }else {
             FilterDto filterDto = new FilterDto();
             filterDto.setName(filterDAO.getName());
             return filterDto;
         }
     }
+    ChequePositionGoodsFilterDto.ChequeGoodsSortTypeEnum chequeGoodsSortTypeEnum1ToChequeGoodsSortTypeEnum(ChequePositionGoodsFilterDAO.ChequeGoodsSortTypeEnum chequeGoodsSortTypeEnum);
+    ChequePositionGoodsFilterDto.OperatorEnum operatorEnum1ToOperatorEnum(ChequePositionGoodsFilterDAO.OperatorEnum operatorEnum);
+    ChequePositionGoodsFilterDto.TypeEnum typeEnum1ToTypeEnum(ChequePositionGoodsFilterDAO.TypeEnum typeEnum);
+    List<BaseGoodsGroupDto> baseGoodsGroupDAOListToBaseGoodsGroupDtoList(List<BaseGoodsGroupDAO> baseGoodsGroupDtoList);
+
 
     default ActionDto actionDAOToActionDto(ActionDAO actionDAO) {
 
@@ -124,6 +176,8 @@ public interface OffersImportModelMapper {
     List<DirectDiscountActionDto.CalculationExclusionDiscountTypesEnum> calculationExclusionDiscountTypesEnumList1ToCalculationExclusionDiscountTypesEnumList(List<DirectDiscountActionDAO.CalculationExclusionDiscountTypesEnum> calculationExclusionDiscountTypesEnumList);
 
     DirectDiscountActionDto.DiscountTypeEnum discountTypeEnum1ToDiscountTypeEnum(DirectDiscountActionDAO.DiscountTypeEnum discountTypeEnum);
+
+    ChequeSumFilterDto.OperatorEnum operatorEnum1ToOperatorEnum(ChequeSumFilterDAO.OperatorEnum operatorEnum);
 //    @Mapping(target = "partnerDAOList", source = "partner")
 //    PartnersDAO partnersToPartnersDAO (Partners partners);
 //  // List<PartnerDAO> partnerListToPartnerDAOList (List<Partner> partner);

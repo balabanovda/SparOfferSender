@@ -28,7 +28,7 @@ import java.util.List;
  */
 @ApiModel(description = "Фильтр \"Наличие товара в чеке\".")
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-06-25T13:30:11.810+03:00")
-public class ChequeGoodsFilterDto {
+public class ChequeGoodsFilterDto extends FilterDto {
   /**
    * Тип фильтрации.
    */
@@ -67,7 +67,7 @@ public class ChequeGoodsFilterDto {
   }
 
   @JsonProperty("type")
-  private TypeEnum type = null;
+  private TypeEnum typeEnum = null;
 
   /**
    * Gets or sets the operator.
@@ -139,7 +139,7 @@ public class ChequeGoodsFilterDto {
   private String name = null;
 
   public ChequeGoodsFilterDto type(TypeEnum type) {
-    this.type = type;
+    this.typeEnum = type;
     return this;
   }
 
@@ -148,12 +148,12 @@ public class ChequeGoodsFilterDto {
    * @return type
   **/
   @ApiModelProperty(value = "Тип фильтрации.")
-  public TypeEnum getType() {
-    return type;
+  public TypeEnum getTypeEnum() {
+    return typeEnum;
   }
 
-  public void setType(TypeEnum type) {
-    this.type = type;
+  public void setTypeEnum(TypeEnum type) {
+    this.typeEnum = type;
   }
 
   public ChequeGoodsFilterDto operator(OperatorEnum operator) {
@@ -282,7 +282,7 @@ public class ChequeGoodsFilterDto {
       return false;
     }
     ChequeGoodsFilterDto chequeGoodsFilterDto = (ChequeGoodsFilterDto) o;
-    return Objects.equals(this.type, chequeGoodsFilterDto.type) &&
+    return Objects.equals(this.typeEnum, chequeGoodsFilterDto.typeEnum) &&
         Objects.equals(this.operator, chequeGoodsFilterDto.operator) &&
         Objects.equals(this.firstValue, chequeGoodsFilterDto.firstValue) &&
         Objects.equals(this.secondValue, chequeGoodsFilterDto.secondValue) &&
@@ -293,7 +293,7 @@ public class ChequeGoodsFilterDto {
 
   @Override
   public int hashCode() {
-    return Objects.hash(type, operator, firstValue, secondValue, goodsGroups, personalOfferAttributeLogicalName, name);
+    return Objects.hash(typeEnum, operator, firstValue, secondValue, goodsGroups, personalOfferAttributeLogicalName, name);
   }
 
 
@@ -302,7 +302,7 @@ public class ChequeGoodsFilterDto {
     StringBuilder sb = new StringBuilder();
     sb.append("class ChequeGoodsFilterDto {\n");
     
-    sb.append("    type: ").append(toIndentedString(type)).append("\n");
+    sb.append("    type: ").append(toIndentedString(typeEnum)).append("\n");
     sb.append("    operator: ").append(toIndentedString(operator)).append("\n");
     sb.append("    firstValue: ").append(toIndentedString(firstValue)).append("\n");
     sb.append("    secondValue: ").append(toIndentedString(secondValue)).append("\n");

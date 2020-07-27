@@ -28,10 +28,22 @@ import java.util.List;
  */
 @ApiModel(description = "Фильтр \"Товар\".")
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-06-25T13:30:11.810+03:00")
-public class ChequePositionGoodsFilterDto {
+public class ChequePositionGoodsFilterDto extends FilterDto{
+
+  @JsonProperty("$type")
+  private String type = null;
+
+  public String getType() {
+    return type;
+  }
+
+  public void setType(String type) {
+    this.type = type;
+  }
   /**
    * Тип фильтрации.
    */
+
   public enum TypeEnum {
     ONLYGOODS("OnlyGoods"),
     
@@ -44,6 +56,14 @@ public class ChequePositionGoodsFilterDto {
     TypeEnum(String value) {
       this.value = value;
     }
+
+
+
+    public void setValue(String value) {
+      this.value = value;
+    }
+
+
 
     @JsonValue
     public String getValue() {
@@ -67,7 +87,7 @@ public class ChequePositionGoodsFilterDto {
   }
 
   @JsonProperty("type")
-  private TypeEnum type = null;
+  private TypeEnum typeEnum = null;
 
   /**
    * Gets or sets the operator.
@@ -183,8 +203,8 @@ public class ChequePositionGoodsFilterDto {
   @JsonProperty("chequeGoodsSortType")
   private ChequeGoodsSortTypeEnum chequeGoodsSortType = null;
 
-  public ChequePositionGoodsFilterDto type(TypeEnum type) {
-    this.type = type;
+  public ChequePositionGoodsFilterDto type(TypeEnum typeEnum) {
+    this.typeEnum = typeEnum;
     return this;
   }
 
@@ -193,12 +213,12 @@ public class ChequePositionGoodsFilterDto {
    * @return type
   **/
   @ApiModelProperty(value = "Тип фильтрации.")
-  public TypeEnum getType() {
-    return type;
+  public TypeEnum getTypeEnum() {
+    return typeEnum;
   }
 
-  public void setType(TypeEnum type) {
-    this.type = type;
+  public void setTypeEnum(TypeEnum typeEnum) {
+    this.typeEnum = typeEnum;
   }
 
   public ChequePositionGoodsFilterDto operator(OperatorEnum operator) {
@@ -363,7 +383,7 @@ public class ChequePositionGoodsFilterDto {
       return false;
     }
     ChequePositionGoodsFilterDto chequePositionGoodsFilterDto = (ChequePositionGoodsFilterDto) o;
-    return Objects.equals(this.type, chequePositionGoodsFilterDto.type) &&
+    return Objects.equals(this.typeEnum, chequePositionGoodsFilterDto.typeEnum) &&
         Objects.equals(this.operator, chequePositionGoodsFilterDto.operator) &&
         Objects.equals(this.firstValue, chequePositionGoodsFilterDto.firstValue) &&
         Objects.equals(this.secondValue, chequePositionGoodsFilterDto.secondValue) &&
@@ -376,7 +396,7 @@ public class ChequePositionGoodsFilterDto {
 
   @Override
   public int hashCode() {
-    return Objects.hash(type, operator, firstValue, secondValue, goodsGroups, personalOfferAttributeLogicalName, name, dividePositions, chequeGoodsSortType);
+    return Objects.hash(typeEnum, operator, firstValue, secondValue, goodsGroups, personalOfferAttributeLogicalName, name, dividePositions, chequeGoodsSortType);
   }
 
 
@@ -385,7 +405,8 @@ public class ChequePositionGoodsFilterDto {
     StringBuilder sb = new StringBuilder();
     sb.append("class ChequePositionGoodsFilterDto {\n");
     
-    sb.append("    type: ").append(toIndentedString(type)).append("\n");
+    sb.append("    type: ").append(toIndentedString(typeEnum)).append("\n");
+    sb.append("    $type: ").append(toIndentedString(type)).append("\n");
     sb.append("    operator: ").append(toIndentedString(operator)).append("\n");
     sb.append("    firstValue: ").append(toIndentedString(firstValue)).append("\n");
     sb.append("    secondValue: ").append(toIndentedString(secondValue)).append("\n");

@@ -26,7 +26,7 @@ import io.swagger.annotations.ApiModelProperty;
  */
 @ApiModel(description = "Фильтр \"Сумма чека\".")
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-06-25T13:30:11.810+03:00")
-public class ChequeSumFilterDto {
+public class ChequeSumFilterDto extends  FilterDto {
   /**
    * Операция.
    */

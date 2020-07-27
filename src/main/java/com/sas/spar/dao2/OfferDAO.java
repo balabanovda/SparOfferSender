@@ -2,11 +2,10 @@ package com.sas.spar.dao2;
 
 import javax.persistence.*;
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
-import java.util.List;
 @Entity
 @Table(name = "loymax_Offer", schema = "exchange", catalog = "DDS")
 public class OfferDAO {
+
     @Id
     @Column(name = "Offer_id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Offer_id_generator")
